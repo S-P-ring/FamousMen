@@ -1,0 +1,44 @@
+{% extends 'men/base.html' %}
+
+{% block content %}
+<div class="content-title">
+    <h1>{{ title }}</h1>
+</div>
+
+
+<ul class="content-list">
+    {% for p in posts %}
+    <li>
+        <div class="article-title">
+            <ul class="article-title-list">
+                <li class="article-title-list-item">
+                    Категория: {{ p.cat }}
+                </li>
+                <li class="article-title-list-item">
+                    Дата: {{ p.time_update|date:"d-m-Y H:i:s" }}
+                </li>
+            </ul>
+        </div>
+
+
+        {% if p.photo %}
+            <div>
+                <img class="article-img" src="{{p.photo.url}}" alt="photo">
+            </div>
+        {% endif %}
+
+        <div class="article-content">
+        <h2>{{ p.title }}</h2>
+        <p>{{ p.content|linebreaks|truncatewords:50 }}</p>
+        <div class="justify-right">
+            <a class="button-read-more" href="{{ p.get_absolute_url }}">Читать пост</a>
+        </div>
+        <div class="hr-padding">
+            <hr>
+        </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
