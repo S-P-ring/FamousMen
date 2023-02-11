@@ -16,19 +16,15 @@ def index(request):
 
 
 def about(request):
-    return render(request, 'men/about.html', {'menu': menu, 'title': 'О сайте'})
+    return render(request, 'men/about.html', {'title': 'О сайте'})
 
 
 def addpage(request):
     if request.method == 'POST':
-        form = AddPostForm(request.POST)
+        form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
-
-            try:
-                Men.objects.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Ошибка при добавление нового поста')
+            form.save()
+            return redirect('home')
 
     else:
         form = AddPostForm()
