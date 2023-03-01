@@ -1,9 +1,5 @@
 /venv/
 /bsite/db.sqlite3
-/bsite/men/migrations/0001_initial.py
-/bsite/men/migrations/0002_category_men_cat.py
-/bsite/men/migrations/0003_alter_category_options_alter_men_options_and_more.py
-/bsite/men/migrations/0004_alter_men_cat.py
 /bsite/media/
-/bsite/secret/
 .idea
+/site_cache

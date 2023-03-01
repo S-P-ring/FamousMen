@@ -3,14 +3,14 @@ from django.urls import reverse
 
 
 class Men(models.Model):
-    title = models.CharField(max_length=125)
+    title = models.CharField(max_length=125, verbose_name='Заголовок')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
-    content = models.TextField(blank=True)
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d")
-    time_create = models.DateTimeField(auto_now_add=True)
-    time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=True)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Category')
+    content = models.TextField(blank=True, verbose_name='Контент')
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name='Путь хранения фото')
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    time_update = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
+    is_published = models.BooleanField(default=True, verbose_name='Статус публикации')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
 
     def __str__(self):
         return self.title
@@ -19,8 +19,8 @@ class Men(models.Model):
         return reverse('post', kwargs={'post_slug': self.slug})
 
     class Meta:
-        verbose_name = 'Famous men'
-        verbose_name_plural = 'Famous men'
+        verbose_name = 'Известный мужчина'
+        verbose_name_plural = 'Известные мужчины'
         ordering = ['time_create', 'title']
 
 
@@ -35,6 +35,6 @@ class Category(models.Model):
         return reverse('category', kwargs={'cat_slug': self.slug})
 
     class Meta:
-        verbose_name = 'Category of men'
-        verbose_name_plural = 'Categories of men'
+        verbose_name = 'Категория известных мужчин'
+        verbose_name_plural = 'Категории известных мужчин'
         ordering = ['id']

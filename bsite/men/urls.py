@@ -1,16 +1,17 @@
-from django.urls import path, re_path
+from django.urls import path
 from .views import *
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
-    # path('', index, name='home'),
+    path('', cache_page(60)(MenHome.as_view()), name='home'),
     path('category/<slug:cat_slug>/', MenCategory.as_view(), name='category'),
     path('post/<slug:post_slug>/', ShowPost.as_view(), name='post'),
     path('addpage/', AddPage.as_view(), name='add_page'),
-    path('', MenHome.as_view(), name='home'),
     path('about/', about, name='about'),
-    # path('addpage/', addpage, name='add_page'),
-    path('contact/', contact, name='contact'),
-    path('login/', login, name='login'),
-    # path('post/<slug:post_slug>/', show_post, name='post'),
-    # path('category/<slug:cat_slug>/', show_category, name='category')
+    path('contact/', ContactFormView.as_view(), name='contact'),
+
+    path('register/', RegisterUser.as_view(), name='register'),
+    path('login/', LoginUser.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
+
 ]

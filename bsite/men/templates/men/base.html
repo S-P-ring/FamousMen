@@ -14,29 +14,43 @@
 
 <div class="navbar">
     <a href="{% url 'home' %}">
-        <img src="{% static 'men/images/b_logo.jpg' %}" class="logo"alt="logo"/>
+        <img src="{% static 'men/images/b_logo.jpg' %}" class="logo" alt="logo"/>
     </a>
     <ul class="navbar-menu">
         {% for e in menu %}
         <li class="nav-bar-list-item">
-            <a href="{% url e.url_name %}" class="nav-bar-button">{{e.title}}</a>
+            <a href="{% url e.url_name %}" class="nav-bar-button">{{ e.title }}</a>
         </li>
         {% endfor %}
+        {% if request.user.is_authenticated %}
+        <li class="nav-bar-list-item-last"><a class="nav-bar-button" href="{% url 'logout' %}">Выйти</a></li>
+        {% else %}
+        <li class="nav-bar-list-item-last">
+            <a class="nav-bar-button" href="{% url 'register' %}">Регистрация</a>
+        </li>
+        <li class="nav-bar-list-item-last">
+            <a class="nav-bar-button" href="{% url 'login' %}">Войти</a>
+        </li>
+        {% endif %}
     </ul>
 </div>
 {% endblock mainmenu %}
 
 <div class="columns">
+
+    {% load cache %}
+
+
     <div class="categories">
         <ul class="categories-list">
             {% if cat_selected == 0 %}
-                <li class="categories-list-item">
-                    <p>Все категории</p>
-                </li>
+            <li class="categories-list-item">
+                <p>Все категории</p>
+            </li>
             {% else %}
-                <li class="categories-list-item">
-                    <a class="categories-list-button" href="{% url 'home' %}">Все категории</a>
-                </li>
+            <li class="categories-list-item">
+                <a class="categories-list-button" href="{% url 'home' %}">Все категории</a>
+            </li>
             {% endif %}
 
 
@@ -46,6 +60,35 @@
     <div class="content">
         {% block content %}
         {% endblock %}
+        {% if page_obj.has_other_pages %}
+        <nav class="pagination-nav">
+            <ul>
+
+                {% if page_obj.has_previous %}
+                <li class="pagination-element">
+                    <a class="pagination-link" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                </li>
+                {% endif %}
+
+                {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                <li class="pagination-element">{{ p }}</li>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                <li class="pagination-element">
+                    <a class="pagination-link" href="?page={{p}}">{{ p }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="pagination-element">
+                    <a class="pagination-link" href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+        {% endif %}
     </div>
 </div>
 

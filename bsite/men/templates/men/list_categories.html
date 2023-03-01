@@ -7,16 +7,16 @@
 <body>
 
 {% for c in cats %}
-                {% if c.pk == cat_selected %}
-                    <li class="categories-list-item">
-                        <p>{{ c.name }}</p>
-                    </li>
-                {% else %}
-                    <li class="categories-list-item">
-                        <a class="categories-list-button" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
+{% if c.pk == cat_selected %}
+<li class="categories-list-item">
+    <p>{{ c.name }}</p>
+</li>
+{% else %}
+<li class="categories-list-item">
+    <a class="categories-list-button" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+</li>
+{% endif %}
+{% endfor %}
 
 </body>
 </html>
